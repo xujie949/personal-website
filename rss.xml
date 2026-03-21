@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>张三的博客</title>
+    <link>https://example.com</link>
+    <description>全栈开发者张三的技术博客，分享前端、后端开发经验</description>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 18 Mar 2024 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://example.com/rss.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>React 18 新特性深度解析</title>
+      <link>https://example.com/pages/post.html?id=1</link>
+      <guid isPermaLink="true">https://example.com/pages/post.html?id=1</guid>
+      <pubDate>Mon, 15 Mar 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[深入了解 React 18 带来的并发特性、自动批处理和 Suspense 改进]]></description>
+      <category>React</category>
+      <category>JavaScript</category>
+    </item>
+
+    <item>
+      <title>现代 CSS 布局技巧大全</title>
+      <link>https://example.com/pages/post.html?id=2</link>
+      <guid isPermaLink="true">https://example.com/pages/post.html?id=2</guid>
+      <pubDate>Wed, 10 Mar 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[从 Flexbox 到 Grid，从容器查询到 :has() 选择器，全面掌握现代 CSS 布局技术]]></description>
+      <category>CSS</category>
+    </item>
+
+    <item>
+      <title>Node.js 性能优化实战</title>
+      <link>https://example.com/pages/post.html?id=3</link>
+      <guid isPermaLink="true">https://example.com/pages/post.html?id=3</guid>
+      <pubDate>Fri, 05 Mar 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[分享在实际项目中总结的 Node.js 性能优化经验]]></description>
+      <category>Node.js</category>
+      <category>性能</category>
+    </item>
+
+    <item>
+      <title>5年程序员的成长反思</title>
+      <link>https://example.com/pages/post.html?id=4</link>
+      <guid isPermaLink="true">https://example.com/pages/post.html?id=4</guid>
+      <pubDate>Wed, 28 Feb 2024 00:00:00 GMT</pubDate>
+      <description><![CDATA[回顾5年开发生涯，分享在职业发展、技术选型和团队协作方面的心得]]></description>
+      <category>职业发展</category>
+    </item>
+  </channel>
+</rss>

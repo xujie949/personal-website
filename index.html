@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="张三的个人网站 - 全栈开发者、UI设计师，专注于创造优雅的数字体验">
+    <meta name="keywords" content="全栈开发, UI设计, 前端开发, React, JavaScript">
+    <meta name="author" content="张三">
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="张三 - 全栈开发者 & UI设计师">
+    <meta property="og:description" content="专注于创造优雅的数字体验">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com">
+    <meta property="og:image" content="https://example.com/assets/images/og-image.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="张三 - 全栈开发者 & UI设计师">
+    <meta name="twitter:description" content="专注于创造优雅的数字体验">
+
+    <title>张三 - 全栈开发者 & UI设计师</title>
+
+    <link rel="canonical" href="https://example.com">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Critical CSS - Above the fold */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --radius: 8px;
+            --radius-lg: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 10000;
+            text-decoration: none;
+            border-radius: 0 0 var(--radius) 0;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+        }
+
+        .mobile-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            transition: all 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 60px;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.4s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Skill Tags */
+        .skills-section {
+            padding: 80px 20px;
+            background: var(--bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 48px;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            padding: 10px 20px;
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--text);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .skill-tag:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Featured Works Carousel */
+        .featured-section {
+            padding: 80px 20px;
+            background: var(--bg-alt);
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .carousel {
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            background: var(--bg);
+        }
+
+        .carousel-slide a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .carousel-image.placeholder-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .carousel-image.placeholder-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .carousel-image.placeholder-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+
+        .carousel-content {
+            padding: 32px;
+        }
+
+        .carousel-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .carousel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .carousel-description {
+            color: var(--text-light);
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .carousel-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: none;
+            background: var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: var(--primary);
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        /* Contact Button Fixed */
+        .contact-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+        }
+
+        .contact-float:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+        }
+
+        .contact-float svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text);
+            color: white;
+            padding: 60px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-links h4 {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-social svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--bg);
+                flex-direction: column;
+                padding: 20px;
+                gap: 16px;
+                border-bottom: 1px solid var(--border);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .carousel-image {
+                height: 250px;
+            }
+
+            .contact-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">跳转到主要内容</a>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="#2563eb"/>
+                    <path d="M10 10L16 22L22 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                张三
+            </a>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="打开菜单" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link active">首页</a></li>
+                <li><a href="pages/about.html" class="nav-link">关于</a></li>
+                <li><a href="pages/portfolio.html" class="nav-link">作品集</a></li>
+                <li><a href="pages/blog.html" class="nav-link">博客</a></li>
+                <li><a href="pages/contact.html" class="nav-link">联系</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main id="main">
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <span class="hero-badge">👋 欢迎访问我的个人网站</span>
+                <h1 class="hero-title">创造优雅的数字体验</h1>
+                <p class="hero-tagline">全栈开发者 & UI设计师</p>
+                <p class="hero-description">
+                    5年开发经验，专注于构建高性能Web应用和移动端产品。
+                    热爱开源，追求极致的用户体验。
+                </p>
+                <div class="hero-cta">
+                    <a href="pages/portfolio.html" class="btn btn-primary">
+                        查看作品
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="pages/contact.html" class="btn btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        联系我
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills-section">
+            <div class="container">
+                <h2 class="section-title">技术栈</h2>
+                <p class="section-subtitle">我熟悉和使用的技术工具</p>
+                <div class="skills-grid">
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">TypeScript</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Vue.js</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">GraphQL</span>
+                    <span class="skill-tag">Tailwind CSS</span>
+                    <span class="skill-tag">Figma</span>
+                    <span class="skill-tag">Git</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-section">
+            <div class="container">
+                <h2 class="section-title">精选作品</h2>
+                <p class="section-subtitle">近期完成的一些项目</p>
+
+                <div class="carousel-container">
+                    <div class="carousel">
+                        <div class="carousel-track" id="carouselTrack">
+                            <div class="carousel-slide">
+                                <a href="pages/portfolio.html#project-1">
+                                    <div class="carousel-image placeholder-1">
+                                        <svg width="80" height="80" viewBox="0 0 24 24" fill="white">
+                                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                        </svg>
+                                    </div>
+                                    <div class="carousel-content">
+                                        <span class="carousel-category">Web 应用</span>
+                                        <h3 class="carousel-title">电商平台重构</h3>
+                                        <p class="carousel-description">基于React和Node.js的全栈电商解决方案，支持多端适配</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="carousel-slide">
+                                <a href="pages/portfolio.html#project-2">
+                                    <div class="carousel-image placeholder-2">
+                                        <svg width="80" height="80" viewBox="0 0 24 24" fill="white">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                            <line x1="9" y1="9" x2="15" y2="15"/>
+                                            <line x1="15" y1="9" x2="9" y2="15"/>
+                                        </svg>
+                                    </div>
+                                    <div class="carousel-content">
+                                        <span class="carousel-category">移动应用</span>
+                                        <h3 class="carousel-title">健康管理App</h3>
+                                        <p class="carousel-description">React Native开发的跨平台健康追踪应用，集成AI建议</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="carousel-slide">
+                                <a href="pages/portfolio.html#project-3">
+                                    <div class="carousel-image placeholder-3">
+                                        <svg width="80" height="80" viewBox="0 0 24 24" fill="white">
+                                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="carousel-content">
+                                        <span class="carousel-category">企业官网</span>
+                                        <h3 class="carousel-title">SaaS产品官网</h3>
+                                        <p class="carousel-description">高性能、SEO友好的企业官网，使用Next.js构建</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-nav">
+                        <button class="carousel-btn" id="prevBtn" aria-label="上一个">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <button class="carousel-btn" id="nextBtn" aria-label="下一个">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="carousel-dots" id="carouselDots">
+                        <button class="carousel-dot active" data-index="0" aria-label="转到第1张"></button>
+                        <button class="carousel-dot" data-index="1" aria-label="转到第2张"></button>
+                        <button class="carousel-dot" data-index="2" aria-label="转到第3张"></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <a href="pages/contact.html" class="contact-float" aria-label="联系我">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+    </a>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>张三</h3>
+                <p>全栈开发者 & UI设计师<br>专注于创造优雅的数字体验</p>
+            </div>
+            <div class="footer-links">
+                <h4>导航</h4>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="pages/about.html">关于</a></li>
+                    <li><a href="pages/portfolio.html">作品集</a></li>
+                    <li><a href="pages/blog.html">博客</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>联系</h4>
+                <ul>
+                    <li><a href="mailto:zhangsan@example.com">zhangsan [at] example.com</a></li>
+                    <li><a href="pages/contact.html">发送消息</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 张三. 保留所有权利。</p>
+            <p>使用 ♥ 和纯代码构建</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const isExpanded = navMenu.classList.contains('active');
+            mobileToggle.setAttribute('aria-expanded', isExpanded);
+        });
+
+        // Hide navbar on scroll down, show on scroll up
+        let lastScrollY = window.scrollY;
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > lastScrollY && window.scrollY > 100) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // Carousel
+        const track = document.getElementById('carouselTrack');
+        const slides = track.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+
+        function goToSlide(index) {
+            currentIndex = index;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
+            goToSlide(newIndex);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
+            goToSlide(newIndex);
+        });
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const index = parseInt(dot.dataset.index);
+                goToSlide(index);
+            });
+        });
+
+        // Auto-play carousel
+        setInterval(() => {
+            const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
+            goToSlide(newIndex);
+        }, 5000);
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered:', registration.scope))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="联系张三 - 欢迎项目合作、技术交流或任何问题">
+    <meta name="keywords" content="联系, 合作, 咨询">
+    <meta name="author" content="张三">
+    <meta name="theme-color" content="#2563eb">
+
+    <meta property="og:title" content="联系 - 张三的个人网站">
+    <meta property="og:description" content="欢迎项目合作、技术交流或任何问题">
+    <meta property="og:type" content="website">
+
+    <title>联系 - 张三的个人网站</title>
+
+    <link rel="canonical" href="https://example.com/pages/contact.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --radius: 8px;
+            --radius-lg: 16px;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 10000;
+            text-decoration: none;
+            border-radius: 0 0 var(--radius) 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after { width: 100%; }
+        .nav-link:hover,
+        .nav-link.active { color: var(--primary); }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+        }
+        .mobile-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+        }
+
+        .main-content { padding-top: 70px; }
+
+        /* Page header */
+        .page-header {
+            background: linear-gradient(135deg, var(--bg-alt) 0%, var(--bg) 100%);
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .page-subtitle {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Contact section */
+        .contact-section {
+            padding: 60px 20px;
+            background: var(--bg-alt);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        /* Contact info */
+        .contact-info h2 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+        .contact-info p {
+            color: var(--text-light);
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .contact-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+        .contact-method h4 {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+        .contact-method a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .contact-method a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+        .social-link {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-link:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Contact form */
+        .contact-form-container {
+            background: var(--bg);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+        }
+        .contact-form-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-group label span {
+            color: var(--error);
+        }
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .form-control.error {
+            border-color: var(--error);
+            background: #fef2f2;
+        }
+        textarea.form-control {
+            min-height: 140px;
+            resize: vertical;
+        }
+        .error-message {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 4px;
+            display: none;
+        }
+        .error-message.visible {
+            display: block;
+        }
+
+        /* CAPTCHA */
+        .captcha-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .captcha-display {
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            border-radius: var(--radius);
+            user-select: none;
+        }
+        .captcha-refresh {
+            padding: 12px;
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .captcha-refresh:hover {
+            background: var(--border);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 16px 32px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: var(--bg);
+            padding: 48px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 2.5rem;
+        }
+        .modal-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .modal-content p {
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+        .modal-btn {
+            padding: 12px 32px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text);
+            color: white;
+            padding: 60px 20px 30px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .footer-links h4 {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .footer-links ul {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-social {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footer-social a:hover {
+            background: var(--primary);
+        }
+        .footer-social svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle { display: flex; }
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--bg);
+                flex-direction: column;
+                padding: 20px;
+                gap: 16px;
+                border-bottom: 1px solid var(--border);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .contact-form-container {
+                padding: 24px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">跳转到主要内容</a>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect width="32" height="32" rx="8" fill="#2563eb"/>
+                    <path d="M10 10L16 22L22 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                张三
+            </a>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="打开菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">首页</a></li>
+                <li><a href="about.html" class="nav-link">关于</a></li>
+                <li><a href="portfolio.html" class="nav-link">作品集</a></li>
+                <li><a href="blog.html" class="nav-link">博客</a></li>
+                <li><a href="contact.html" class="nav-link active">联系</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main id="main" class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">联系我</h1>
+            <p class="page-subtitle">欢迎项目合作、技术交流或任何问题</p>
+        </header>
+
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h2>让我们开始对话</h2>
+                        <p>无论是项目合作、技术咨询，还是仅仅想打个招呼，我都很乐意收到您的消息。我会尽快回复您。</p>
+
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <div class="contact-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                        <polyline points="22,6 12,13 2,6"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4>邮箱</h4>
+                                    <a href="mailto:zhangsan@example.com">zhangsan [at] example.com</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-method">
+                                <div class="contact-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                        <circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4>地点</h4>
+                                    <span>中国 · 北京</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-links">
+                            <a href="https://github.com" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                                </svg>
+                            </a>
+                            <a href="https://linkedin.com" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                                </svg>
+                            </a>
+                            <a href="https://twitter.com" class="social-link" target="_blank" rel="noopener" aria-label="Twitter">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-container">
+                        <h2>发送消息</h2>
+                        <form id="contactForm" novalidate>
+                            <div class="form-group">
+                                <label for="name">姓名 <span>*</span></label>
+                                <input type="text" id="name" name="name" class="form-control" required>
+                                <span class="error-message">请输入您的姓名</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">邮箱 <span>*</span></label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                                <span class="error-message">请输入有效的邮箱地址</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="subject">主题</label>
+                                <input type="text" id="subject" name="subject" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">消息内容 <span>*</span></label>
+                                <textarea id="message" name="message" class="form-control" required></textarea>
+                                <span class="error-message">请输入消息内容</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="captcha">验证码 <span>*</span></label>
+                                <div class="captcha-group">
+                                    <input type="text" id="captcha" name="captcha" class="form-control" required placeholder="输入验证码">
+                                    <div class="captcha-display" id="captchaDisplay">7X9K</div>
+                                    <button type="button" class="captcha-refresh" id="captchaRefresh" aria-label="刷新验证码">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="23 4 23 10 17 10"/>
+                                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <span class="error-message" id="captchaError">验证码错误</span>
+                            </div>
+
+                            <button type="submit" class="btn" id="submitBtn">
+                                发送消息
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="22" y1="2" x2="11" y2="13"/>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">✓</div>
+            <h3>发送成功！</h3>
+            <p>感谢您的留言，我会尽快回复您。</p>
+            <button class="modal-btn" onclick="closeModal()">确定</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>张三</h3>
+                <p>全栈开发者 & UI设计师<br>专注于创造优雅的数字体验</p>
+            </div>
+            <div class="footer-links">
+                <h4>导航</h4>
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="about.html">关于</a></li>
+                    <li><a href="portfolio.html">作品集</a></li>
+                    <li><a href="blog.html">博客</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>联系</h4>
+                <ul>
+                    <li><a href="mailto:zhangsan@example.com">zhangsan [at] example.com</a></li>
+                    <li><a href="contact.html">发送消息</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 张三. 保留所有权利。</p>
+            <p>使用 ♥ 和纯代码构建</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        document.getElementById('mobileToggle').addEventListener('click', () => {
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+
+        // CAPTCHA
+        let captchaCode = generateCaptcha();
+        const captchaDisplay = document.getElementById('captchaDisplay');
+        const captchaRefresh = document.getElementById('captchaRefresh');
+
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+            let code = '';
+            for (let i = 0; i < 4; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        function refreshCaptcha() {
+            captchaCode = generateCaptcha();
+            captchaDisplay.textContent = captchaCode;
+        }
+
+        captchaRefresh.addEventListener('click', refreshCaptcha);
+
+        // Form validation
+        const form = document.getElementById('contactForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+        const captchaInput = document.getElementById('captcha');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function showError(input, show) {
+            const errorMessage = input.parentElement.querySelector('.error-message');
+            input.classList.toggle('error', show);
+            if (errorMessage) {
+                errorMessage.classList.toggle('visible', show);
+            }
+        }
+
+        // Real-time validation
+        nameInput.addEventListener('blur', () => {
+            showError(nameInput, !nameInput.value.trim());
+        });
+
+        emailInput.addEventListener('blur', () => {
+            showError(emailInput, !validateEmail(emailInput.value));
+        });
+
+        messageInput.addEventListener('blur', () => {
+            showError(messageInput, !messageInput.value.trim());
+        });
+
+        // Form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Validate all fields
+            let isValid = true;
+
+            if (!nameInput.value.trim()) {
+                showError(nameInput, true);
+                isValid = false;
+            }
+
+            if (!validateEmail(emailInput.value)) {
+                showError(emailInput, true);
+                isValid = false;
+            }
+
+            if (!messageInput.value.trim()) {
+                showError(messageInput, true);
+                isValid = false;
+            }
+
+            // Validate CAPTCHA
+            const captchaError = document.getElementById('captchaError');
+            if (captchaInput.value.toUpperCase() !== captchaCode) {
+                captchaError.classList.add('visible');
+                isValid = false;
+            } else {
+                captchaError.classList.remove('visible');
+            }
+
+            if (!isValid) return;
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '发送中...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Show success modal
+                document.getElementById('successModal').classList.add('active');
+
+                // Reset form
+                form.reset();
+                refreshCaptcha();
+
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `
+                    发送消息
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                `;
+            }, 1500);
+        });
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        // Close on outside click
+        document.getElementById('successModal').addEventListener('click', (e) => {
+            if (e.target.id === 'successModal') {
+                closeModal();
+            }
+        });
+
+        // XSS prevention - encode HTML
+        function encodeHTML(str) {
+            return str.replace(/[&<>'"]/g,
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag])
+            );
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="张三的作品集 - 展示精选的Web应用、移动应用和设计项目">
+    <meta name="keywords" content="作品集, 项目, Web应用, 移动应用, UI设计">
+    <meta name="author" content="张三">
+    <meta name="theme-color" content="#2563eb">
+
+    <meta property="og:title" content="作品集 - 张三的个人网站">
+    <meta property="og:description" content="查看我的精选项目作品">
+    <meta property="og:type" content="website">
+
+    <title>作品集 - 张三的个人网站</title>
+
+    <link rel="canonical" href="https://example.com/pages/portfolio.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --radius: 8px;
+            --radius-lg: 16px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            z-index: 10000;
+            text-decoration: none;
+            border-radius: 0 0 var(--radius) 0;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after { width: 100%; }
+        .nav-link:hover,
+        .nav-link.active { color: var(--primary); }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+        }
+        .mobile-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+        }
+
+        .main-content { padding-top: 70px; }
+
+        /* Page header */
+        .page-header {
+            background: linear-gradient(135deg, var(--bg-alt) 0%, var(--bg) 100%);
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .page-subtitle {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Filter */
+        .filter-section {
+            padding: 24px 20px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+        }
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .filter-btn {
+            padding: 10px 24px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            border-radius: 50px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Portfolio grid */
+        .portfolio-section {
+            padding: 60px 20px;
+            background: var(--bg-alt);
+            min-height: 500px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 32px;
+        }
+
+        .portfolio-card {
+            background: var(--bg);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .portfolio-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        .portfolio-card.hidden { display: none; }
+
+        .card-image {
+            width: 100%;
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-image img,
+        .card-image .placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .portfolio-card:hover .card-image img,
+        .portfolio-card:hover .card-image .placeholder {
+            transform: scale(1.05);
+        }
+        .placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        .placeholder.web { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .placeholder.app { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .placeholder.design { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .placeholder.api { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .portfolio-card:hover .card-overlay {
+            opacity: 1;
+        }
+        .view-btn {
+            padding: 12px 28px;
+            background: white;
+            color: var(--text);
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+        .card-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .card-tag {
+            padding: 4px 12px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .card-desc {
+            color: var(--text-light);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .card-links {
+            display: flex;
+            gap: 16px;
+        }
+        .card-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: gap 0.3s ease;
+        }
+        .card-link:hover {
+            gap: 8px;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: var(--bg);
+            border-radius: var(--radius-lg);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+        }
+        .modal-close svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .modal-header {
+            position: relative;
+            height: 300px;
+            background: var(--bg-alt);
+        }
+        .modal-header img,
+        .modal-header .placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+        .modal-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .modal-tag {
+            padding: 6px 14px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .modal-desc {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+        .modal-section {
+            margin-bottom: 24px;
+        }
+        .modal-section h4 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+        .tech-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .tech-item {
+            padding: 8px 16px;
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+        }
+        .modal-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Contact float */
+        .contact-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .contact-float:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+        .contact-float svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text);
+            color: white;
+            padding: 60px 20px 30px;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .footer-links h4 {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .footer-links ul {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-social {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footer-social a:hover {
+            background: var(--primary);
+        }
+        .footer-social svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        /* Lazy loading */
+        .lazy-image {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .lazy-image.loaded {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle { display: flex; }
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--bg);
+                flex-direction: column;
+                padding: 20px;
+                gap: 16px;
+                border-bottom: 1px solid var(--border);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            .filter-container {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 8px;
+            }
+            .modal-header {
+                height: 200px;
+            }
+            .modal-links {
+                flex-direction: column;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">跳转到主要内容</a>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect width="32" height="32" rx="8" fill="#2563eb"/>
+                    <path d="M10 10L16 22L22 10" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                张三
+            </a>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="打开菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../index.html" class="nav-link">首页</a></li>
+                <li><a href="about.html" class="nav-link">关于</a></li>
+                <li><a href="portfolio.html" class="nav-link active">作品集</a></li>
+                <li><a href="blog.html" class="nav-link">博客</a></li>
+                <li><a href="contact.html" class="nav-link">联系</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main id="main" class="main-content">
+        <header class="page-header">
+            <h1 class="page-title">作品集</h1>
+            <p class="page-subtitle">精选项目展示，包括Web应用、移动应用和设计作品</p>
+        </header>
+
+        <section class="filter-section">
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="web">Web应用</button>
+                <button class="filter-btn" data-filter="app">移动应用</button>
+                <button class="filter-btn" data-filter="design">UI设计</button>
+                <button class="filter-btn" data-filter="api">后端API</button>
+            </div>
+        </section>
+
+        <section class="portfolio-section">
+            <div class="container">
+                <div class="portfolio-grid" id="portfolioGrid">
+                    <!-- Project 1 -->
+                    <article class="portfolio-card" data-category="web" data-project="1">
+                        <div class="card-image">
+                            <div class="placeholder web">
+                                <svg width="64" height="64" viewBox="0 0 24 24" fill="white"><path d="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h4v4H7V7zm0 6h4v4H7v-4zm6-6h4v4h-4V7zm0 6h4v4h-4v-4z"/></svg>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="view-btn">查看详情</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-tags">
+                                <span class="card-tag">React</span>
+                                <span class="card-tag">Node.js</span>
+                            </div>
+                            <h3 class="card-title">电商平台重构</h3>
+                            <p class="card-desc">全栈电商解决方案，支持多端适配，日活用户超过10万</p>
+                            <div class="card-links">
+                                <a href="#" class="card-link" onclick="event.stopPropagation();">在线预览 →</a>
+                                <a href="#" class="card-link" onclick="event.stopPropagation();">源码 ↗</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 2 -->
+                    <article class="portfolio-card" data-category="app" data-project="2">
+                        <div class="card-image">
+                            <div class="placeholder app">
+                                <svg width="64" height="64" viewBox="0 0 24 24" fill="white"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="view-btn">查看详情</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-tags">
+                                <span class="card-tag">React Native</span>
+                                <span class="card-tag">AI</span>
+                            </div>
+                            <h3 class="card-title">健康管理App</h3>
+                            <p class="card-desc">跨平台健康追踪应用，集成AI建议，下载量突破50万</p>
+                            <div class="card-links">
+                                <a href="#" class="card-link" onclick="event.stopPropagation();">App Store ↗</a>
+                                <a href="#" class="card-link" onclick="event.stopPropagation();">Play Store ↗</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 3 -->
+                    <article class="portfolio-card" data-category="web" data-project="3">
+                        <div class="card-image">
+                            <div class="placeholder api">
+                                <div class="placeholder web">
+                                    <svg width="64" height="64" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="view-btn">查看详情</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-tags">
+                                <span class="card-tag">Next.js</span>
+                                <span class="card-tag">SEO</span>
+                            </div>
+                            <h3 class="card-title">SaaS产品官网</h3>
+                            <p class="card-desc">高性能、SEO友好的企业官网，首屏加载时间小于1秒</p>
+                            <div class="card-links">
+                                <a href="#" class="card-link" onclick="event.stopPropagation();">访问网站 ↗</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 4 -->
+                    <article class="portfolio-card" data-category="design" data-project="4">
+                        <div class="card-image">
+                            <div class="placeholder design">
+                                <svg width="64" height="64" viewBox="0 0 24 24" fill="white"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="view-btn">查看详情</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-tags">
+                                <span class="card-tag">Figma</span>
+                                <span class="card-tag">设计系统</span>
+                            </div>
+                            <h3 class="card-title">企业设计系统</h3>
+                            <p class="card-desc">为大型团队构建的完整设计系统，包含200+组件</p>
+                            <div class="card-links">
+                                <a href="#" class="card-link" onclick="event.stopPropagation();">查看案例 ↗</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 5 -->
+                    <article class="portfolio-card" data-category="api" data-project="5">
+                        <div class="card-image">
+                            <div class="placeholder api">
+                                <svg width="64" height="64" viewBox="0 0 24 24" fill="white"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="view-btn">查看详情</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-tags">
+                                <span class="card-tag">Node.js</span>
+                                <span class="card-tag">GraphQL</span>
+                            </div>
+                            <h3 class="card-title">微服务API平台</h3>
+                            <p class="card-desc">高性能GraphQL API网关，支持百万级并发请求</p>
+                            <div class="card-links">
+                                <a href="#" class="card-link" onclick="event.stopPropagation();">API文档 ↗</a>
+                                <a href="#" class="card-link" onclick="event.stopPropagation();">源码 ↗</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 6 -->
+                    <article class="portfolio-card" data-category="app" data-project="6">
+                        <div class="card-image">
+                            <div class="placeholder app">
+                                <svg width="64" height="64" viewBox="0 0 24 24" fill="white"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </div>
+                            <div class="card-overlay">
+                                <button class="view-btn">查看详情</button>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-tags">
+                                <span class="card-tag">Flutter</span>
+                                <span class="card-tag">Firebase</span>
+                            </div>
+                            <h3 class="card-title">社交应用</h3>
+                            <p class="card-desc">面向年轻人的兴趣社交平台，支持实时聊天和内容分享</p>
+                            <div class="card-links">
+                                <a href="#" class="card-link" onclick="event.stopPropagation();">了解更多 →</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal" id="projectModal">
+        <button class="modal-close" onclick="closeModal()" aria-label="关闭">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+        <div class="modal-content" id="modalContent">
+            <!-- Dynamic content -->
+        </div>
+    </div>
+
+    <a href="contact.html" class="contact-float" aria-label="联系我">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+    </a>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>张三</h3>
+                <p>全栈开发者 & UI设计师<br>专注于创造优雅的数字体验</p>
+            </div>
+            <div class="footer-links">
+                <h4>导航</h4>
+                <ul>
+                    <li><a href="../index.html">首页</a></li>
+                    <li><a href="about.html">关于</a></li>
+                    <li><a href="portfolio.html">作品集</a></li>
+                    <li><a href="blog.html">博客</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>联系</h4>
+                <ul>
+                    <li><a href="mailto:zhangsan@example.com">zhangsan [at] example.com</a></li>
+                    <li><a href="contact.html">发送消息</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">
+                        <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 张三. 保留所有权利。</p>
+            <p>使用 ♥ 和纯代码构建</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        document.getElementById('mobileToggle').addEventListener('click', () => {
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioCards = document.querySelectorAll('.portfolio-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.dataset.filter;
+
+                // Update active state
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filter cards
+                portfolioCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Project data
+        const projectData = {
+            1: {
+                title: '电商平台重构',
+                tags: ['React', 'Node.js', 'PostgreSQL'],
+                desc: '这是一个大型电商平台的全栈重构项目。我们使用React和Node.js重新构建了前后端架构，实现了更好的用户体验和系统性能。项目包含商品管理、订单系统、支付集成、用户中心等核心功能模块。',
+                techs: ['React', 'Redux Toolkit', 'Node.js', 'Express', 'PostgreSQL', 'Redis', 'Docker', 'AWS'],
+                demoUrl: '#',
+                codeUrl: '#'
+            },
+            2: {
+                title: '健康管理App',
+                tags: ['React Native', 'AI', 'Firebase'],
+                desc: '一款跨平台的健康管理应用，集成AI算法提供个性化健康建议。用户可以记录运动、饮食、睡眠等数据，应用会根据数据分析提供健康改善建议。支持iOS和Android双平台。',
+                techs: ['React Native', 'TensorFlow.js', 'Firebase', 'Node.js', 'GraphQL'],
+                demoUrl: '#',
+                codeUrl: null
+            },
+            3: {
+                title: 'SaaS产品官网',
+                tags: ['Next.js', 'SEO', 'Tailwind'],
+                desc: '为企业SaaS产品打造的高性能营销网站。采用Next.js实现服务端渲染，优化SEO表现。网站包含产品展示、定价方案、客户案例、博客等模块。',
+                techs: ['Next.js', 'Tailwind CSS', 'Framer Motion', 'MDX', 'Vercel'],
+                demoUrl: '#',
+                codeUrl: null
+            },
+            4: {
+                title: '企业设计系统',
+                tags: ['Figma', '设计系统', '组件库'],
+                desc: '为大型企业团队构建的完整设计系统，包含色彩规范、字体规范、图标库、组件库等。设计系统包含200+可复用组件，支持深色模式，并提供详细的文档说明。',
+                techs: ['Figma', 'Storybook', 'React', 'CSS-in-JS'],
+                demoUrl: '#',
+                codeUrl: null
+            },
+            5: {
+                title: '微服务API平台',
+                tags: ['Node.js', 'GraphQL', '微服务'],
+                desc: '高性能API网关和微服务平台，支持RESTful和GraphQL两种接口形式。采用微服务架构，支持服务发现、负载均衡、熔断降级等功能。',
+                techs: ['Node.js', 'GraphQL', 'gRPC', 'Kubernetes', 'Prometheus', 'Jaeger'],
+                demoUrl: '#',
+                codeUrl: '#'
+            },
+            6: {
+                title: '社交应用',
+                tags: ['Flutter', 'Firebase', '实时'],
+                desc: '面向年轻人的兴趣社交平台，支持基于地理位置的发现、实时聊天、内容分享等功能。应用采用Flutter开发，一套代码同时支持iOS和Android。',
+                techs: ['Flutter', 'Firebase', 'WebSocket', 'Google Maps API'],
+                demoUrl: '#',
+                codeUrl: null
+            }
+        };
+
+        // Modal functionality
+        const modal = document.getElementById('projectModal');
+        const modalContent = document.getElementById('modalContent');
+
+        function openModal(projectId) {
+            const project = projectData[projectId];
+            if (!project) return;
+
+            const tagsHtml = project.tags.map(tag => `<span class="modal-tag">${tag}</span>`).join('');
+            const techsHtml = project.techs.map(tech => `<span class="tech-item">${tech}</span>`).join('');
+
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <div class="placeholder ${project.tags[0].toLowerCase().includes('web') ? 'web' : project.tags[0].toLowerCase().includes('app') ? 'app' : 'design'}">
+                        <svg width="100" height="100" viewBox="0 0 24 24" fill="white">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-tags">${tagsHtml}</div>
+                    <h2 class="modal-title">${project.title}</h2>
+                    <p class="modal-desc">${project.desc}</p>
+                    <div class="modal-section">
+                        <h4>技术栈</h4>
+                        <div class="tech-list">${techsHtml}</div>
+                    </div>
+                    <div class="modal-links">
+                        <a href="${project.demoUrl}" class="btn btn-primary" target="_blank" rel="noopener">
+                            在线预览
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                <polyline points="15 3 21 3 21 9"/>
+                                <line x1="10" y1="14" x2="21" y2="3"/>
+                            </svg>
+                        </a>
+                        ${project.codeUrl ? `
+                        <a href="${project.codeUrl}" class="btn btn-secondary" target="_blank" rel="noopener">
+                            查看源码
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                            </svg>
+                        </a>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Card click
+        portfolioCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const projectId = card.dataset.project;
+                openModal(projectId);
+            });
+        });
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Lazy loading for images
+        const lazyImages = document.querySelectorAll('.lazy-image');
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.onload = () => img.classList.add('loaded');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        lazyImages.forEach(img => imageObserver.observe(img));
+    </script>
+</body>
+</html>
