@@ -1,6 +1,6 @@
 {
-  "name": "张三的个人网站",
-  "short_name": "张三",
+  "name": "杰佬的个人网站",
+  "short_name": "杰佬",
   "description": "全栈开发者 \u0026 UI设计师的个人网站",
   "start_url": "/index.html",
   "display": "standalone",
